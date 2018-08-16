@@ -1,0 +1,28 @@
+{% extends "layout.html" %} {% block content %}
+
+
+  <div class="card">
+      <div class="card-content">
+          <div class="content">
+              <div class="control has-icons-left has-icons-right">
+                  <input id="search" class="input is-large" type="search" placeholder="" />
+                  <span class="icon is-medium is-left">
+                  <i class="fa fa-search"></i></span><span class="icon is-medium is-right">
+                  <i class="fa fa-empire"></i></span>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  {{ table }}
+  
+<!-- <div class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+  <div class="notification is-{{ category }}">
+    <button class="delete"></button>
+    {{ message }}
+  </div>
+  {% endfor %} {% endif %} {% endwith %}
+</div> -->
+
+{% endblock content %}

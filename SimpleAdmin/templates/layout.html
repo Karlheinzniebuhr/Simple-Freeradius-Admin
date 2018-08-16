@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Freeradius Admin</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='bulma.min.css')}}">
+    <script defer src="{{url_for('static', filename='all.js')}}"></script>
+    <script defer src="{{url_for('static', filename='jquery.slim.min.js')}}"></script>
+    <script defer src="{{url_for('static', filename='fuzzy_table_search.js')}}"></script>
+    <script defer src="{{url_for('static', filename='dansup.github.io_bulma-templates_css_admin.css')}}"></script>
+
+  </head>
+  <body>
+
+        <!-- START NAV -->
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+              <!-- navbar items, navbar burger... -->
+              <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                </a>
+            </div>
+          </nav>
+        <!-- END NAV -->
+
+    <div class="container">
+      <div class="columns">
+          <div class="column is-3">
+
+              <aside class="menu">
+                  <p class="menu-label">
+                    
+                  </p>
+                  <ul class="menu-list">
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                  </ul>
+                  <p class="menu-label">
+                    Administración
+                  </p>
+                  <ul class="menu-list">
+                    <li><a href="{{ url_for('list') }}">Search</a></li>
+                    <li><a href="{{ url_for('add_client') }}">Register</a></li>
+                  </ul>
+
+          </aside>
+          </div>
+          <div class="column is-9">
+
+              {% block content %} {% endblock %}
+
+          </div>
+          <div class="column"></div>
+      </div><!-- Columns -->
+    </div><!-- Container -->
+  </body>
+</html>
