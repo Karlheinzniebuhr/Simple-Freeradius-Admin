@@ -2,3 +2,5 @@ flask
 flask_sqlalchemy
 flask_admin
 pymysql
+flask_wtf
+flask_table
