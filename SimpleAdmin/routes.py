@@ -46,7 +46,7 @@ def edit_client():
         if form.validate_on_submit():
             handle_edit_reply(form, user_param)
 
-            return redirect(url_for('home'))
+            return redirect(url_for('list'))
         else:
             for input, err in form.errors.items():
                 flash("%s: %s" %(input,err[0]), 'warning')
