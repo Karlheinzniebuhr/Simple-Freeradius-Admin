@@ -12,5 +12,5 @@ pip install -r requirements.txt
 - Configure keys.py with your freeradius mysql credentials
 - Run the server
 ```
-python app.py
+flask run
 ```
