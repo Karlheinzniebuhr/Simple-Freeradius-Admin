@@ -41,9 +41,10 @@ def edit_client():
 
         return render_template('add_client.html', form=form)
     else:
+        user_param = request.args.get('user')
         form = AddClientForm()
         if form.validate_on_submit():
-            handle_edit_reply(form)
+            handle_edit_reply(form, user_param)
 
             return redirect(url_for('home'))
         else:
