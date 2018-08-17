@@ -36,9 +36,9 @@ class AddClientForm(FlaskForm):
     password = StringField('Password', widget=PasswordInput(hide_value=False),
         validators=[DataRequired(),Length(min=2, max=20)])
 
-    profile = SelectField(u'Perfil de Internet', choices=internet_profile_choice_query())
+    profile = SelectField(u'Internet Profile', choices=internet_profile_choice_query())
 
-    submit = SubmitField('Guardar')
+    submit = SubmitField('Save')
 
 # class Client(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
