@@ -41,7 +41,15 @@
         </div>
       </div>
   </div>
+  <div class="column is-one-fifth">
+    <div class="field">
+        <div class="control">
+          {{ form.delete(class="button is-warning")}}
+        </div>
+    </div>
+  </div>
 </div>
+
 
     <div class="field">
       {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}

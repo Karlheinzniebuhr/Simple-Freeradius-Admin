@@ -38,6 +38,22 @@ class AddClientForm(FlaskForm):
 
     profile = SelectField(u'Internet Profile', choices=internet_profile_choice_query())
 
+    # delete = SubmitField('Delete User')
+
+    submit = SubmitField('Save')
+
+class EditClientForm(FlaskForm):
+    username = StringField('Username',
+        validators=[DataRequired(),Length(min=2, max=20)])
+
+    # We use a widget here to enable population of the pwd field
+    password = StringField('Password', widget=PasswordInput(hide_value=False),
+        validators=[DataRequired(),Length(min=2, max=20)])
+
+    profile = SelectField(u'Internet Profile', choices=internet_profile_choice_query())
+
+    delete = SubmitField('Delete User')
+
     submit = SubmitField('Save')
 
 # class Client(db.Model):
