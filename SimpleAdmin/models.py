@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, SelectField, SubmitField
 from wtforms.validators import DataRequired, Length, ValidationError
 from wtforms.widgets import PasswordInput
 from SimpleAdmin import db
-from SimpleAdmin.dbmanager import Radcheck, Radgroupreply, Radusergroup, internet_profile_choice_query
+from SimpleAdmin.dbmanager import Radcheck, Radgroupreply, Radusergroup, internet_profile_query
 
 class Client(object):
     def __init__(self, username, password, profile):
@@ -36,7 +36,7 @@ class AddClientForm(FlaskForm):
     password = StringField('Password', widget=PasswordInput(hide_value=False),
         validators=[DataRequired(),Length(min=2, max=20)])
 
-    profile = SelectField(u'Internet Profile', choices=internet_profile_choice_query())
+    profile = SelectField(u'Internet Profile', choices=internet_profile_query())
 
     # delete = SubmitField('Delete User')
 
@@ -50,18 +50,18 @@ class EditClientForm(FlaskForm):
     password = StringField('Password', widget=PasswordInput(hide_value=False),
         validators=[DataRequired(),Length(min=2, max=20)])
 
-    profile = SelectField(u'Internet Profile', choices=internet_profile_choice_query())
+    profile = SelectField(u'Internet Profile', choices=internet_profile_query())
 
     delete = SubmitField('Delete User')
 
     submit = SubmitField('Save')
 
-# class Client(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     username = db.Column(db.String(20), unique=True, nullable=False)
-#     email = db.Column(db.String(120), unique=True, nullable=True)
-#     phone = db.Column(db.String(20), unique=True, nullable=True)
-#     password = db.Column(db.String(20), nullable=False)
+class LoginForm(FlaskForm):
+    username = StringField('Username',
+        validators=[DataRequired(),Length(min=2)])
 
-#     def __repr__(self):
-#         return f"User('{self.username}','{self.email}', '{self.phone}', '{self.password}')"
+    # We use a widget here to enable population of the pwd field
+    password = StringField('Password',
+        validators=[DataRequired(),Length(min=4)])
+
+    submit = SubmitField('Login')
