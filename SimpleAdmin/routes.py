@@ -13,18 +13,38 @@ import datetime
 import jwt
 from functools import wraps
 from flask_login import login_user, current_user, logout_user, login_required
+import ipaddress
+
+
+def local_network_only(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        ip = request.remote_addr
+        ip = '192.168.2.6'
+        if ipaddress.ip_address(ip) not in ipaddress.ip_network('192.168.2.0/24'):
+            return make_response('Denied!', 403)
+
+        return f(*args, **kwargs)
+
+    return decorated
+
 
 @app.route("/")
+@local_network_only
 @login_required
 def home():
     return render_template('home.html')
 
+
 @app.route("/about")
+@local_network_only
 @login_required
 def about():
     return render_template('about.html')
 
+
 @app.route("/add_client", methods=['GET', 'POST'])
+@local_network_only
 @login_required
 def add_client():
     
@@ -38,7 +58,9 @@ def add_client():
             flash("%s: %s" %(input,err[0]), 'warning')
     return render_template('add_client.html', form=form)
 
+
 @app.route("/edit_client", methods=['GET', 'POST'])
+@local_network_only
 @login_required
 def edit_client():
     
@@ -71,7 +93,9 @@ def edit_client():
                 flash("%s: %s" %(input,err[0]), 'warning')
         return render_template('edit_client.html', form=form)
 
+
 @app.route("/list", methods=['GET', 'POST'])
+@local_network_only
 @login_required
 def list():
     
@@ -86,6 +110,7 @@ def load_user(user_id):
 
 
 @app.route("/login", methods=['GET', 'POST'])
+@local_network_only
 def login():
     if current_user.is_authenticated:
         return render_template('home.html')
@@ -106,11 +131,14 @@ def login():
             flash("%s: %s" %(input,str(err)), 'warning')
     return render_template('login.html', form=form)
 
+
 @app.route("/logout", methods=['GET', 'POST'])
+@local_network_only
 def logout():
     logout_user()
     form = LoginForm()
     return render_template('login.html', form=form)
+
 
 # API
 def token_required(f):
@@ -163,8 +191,8 @@ def api_auth():
 @app.route("/api/add_api_client", methods=['POST'])
 @token_required
 def add_api_client(current_user):
-    # if not current_user.admin:
-    #     return jsonify({'message' : 'Cannot perform that function!'})
+    if not current_user.admin:
+        return jsonify({'message' : 'Cannot perform that function!'})
 
     data = request.get_json()
     status, error = api.add_api_client(data)
