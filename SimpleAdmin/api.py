@@ -89,27 +89,19 @@ def get_all_clients():
         return False, str(err_message)
 
 
-def edit_client(json):
+def update_client(json):
     
     try:
-        former_name = json['former_name']
         username = json['username']
-        pwd = json['password']
         prof = json['profile']
 
-        radchk = db.session.query(Radcheck).filter(Radcheck.username == former_name).first()
-        radusrgr = db.session.query(Radusergroup).filter(Radusergroup.username == former_name).first()
+        radusrgr = db.session.query(Radusergroup).filter(Radusergroup.username == username).first()
 
-        radchk.username = username
-        radchk.pwd = pwd
-        radchk.prof = prof
-
-        radusrgr.username = username
         radusrgr.groupname = prof
 
         db.session.commit()
 
-        print("Api added: %s:%s:%s" % (username, pwd, prof))
+        print("Api added: %s:%s" % (username, prof))
         return True, ""
     except Exception as e:
         err_message = "Api encountered an error: " + str(e)

@@ -222,18 +222,18 @@ def api_get_client(current_user):
 
 @app.route("/api/get_all_clients", methods=['GET'])
 @token_required
-def list_all_clients(current_user):
+def api_list_all_clients(current_user):
     status, result = api.get_all_clients()
     if status:
         return jsonify({'status': status, 'clients': result})
     return jsonify({'status': status, 'error': result})
 
 
-@app.route("/api/edit_client", methods=['POST'])
+@app.route("/api/update_client_profile", methods=['POST'])
 @token_required
-def api_edit_client(current_user):
+def api_update_client_profile(current_user):
     data = request.get_json()
-    status, error = api.edit_client(data)
+    status, error = api.update_client(data)
     return jsonify({'status': status, 'message': error})
 
 
