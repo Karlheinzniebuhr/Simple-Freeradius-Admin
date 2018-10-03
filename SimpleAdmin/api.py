@@ -5,6 +5,7 @@ import jwt
 import datetime
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
+from SimpleAdmin.models import Client
 
 
 def add_api_client(data):
@@ -46,21 +47,46 @@ def add_client(json):
         return False, str(err_message)
 
 
-def get_client(json):
+def get_client_profile(json):
     
     try:
         username = json['username']
 
         radusrgr = db.session.query(Radusergroup).filter(Radusergroup.username == username).first()
 
+        if not radusrgr:
+            return False, "Cliente no existe"
+
         prof = radusrgr.groupname
 
-        print("Api added: %s:%s" % (username, prof))
-        return True, username, prof, ""
+        print("Api get: %s:%s" % (username, prof))
+        return True, prof
     except Exception as e:
         err_message = "Api encountered an error: " + str(e)
         print(err_message)
-        return False, "","",str(err_message)
+        return False, str(err_message)
+
+
+def get_all_clients():
+    
+    try:
+        
+        radusergroup_list = db.session.query(Radusergroup).all()
+    
+        clients = []
+        for item in radusergroup_list:
+            usrname = item.username
+            prof = item.groupname
+            client_obj = {'username': usrname, 'profile': prof}
+            clients.append(client_obj)
+
+        print("Api selected all clients")
+        return True, clients
+
+    except Exception as e:
+        err_message = "Api encountered an error: " + str(e)
+        print(err_message)
+        return False, str(err_message)
 
 
 def edit_client(json):

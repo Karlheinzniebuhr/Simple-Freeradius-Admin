@@ -176,7 +176,7 @@ def api_auth():
             return make_response('Could not verify', 401, {'WWW-Authenticate':'Basic realm="Login required!"'})
 
         if check_password_hash(user.password, auth.password):
-                token = jwt.encode({'public_id' : user.public_id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+                token = jwt.encode({'public_id' : user.public_id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=1440)}, app.config['SECRET_KEY'])
 
                 return jsonify({'token' : token.decode('UTF-8')})
 
@@ -192,13 +192,13 @@ def api_auth():
 @token_required
 def add_api_client(current_user):
     if not current_user.admin:
-        return jsonify({'message' : 'Cannot perform that function!'})
+        return jsonify({'status':False, 'message': 'Cannot perform that function!'})
 
     data = request.get_json()
     status, error = api.add_api_client(data)
 
     if status:
-        return jsonify({'message' : 'New user created!'})
+        return jsonify({'status': status, 'message' : 'New user created!'})
     return jsonify({'status': status, 'message' : error})
 
 
@@ -210,14 +210,23 @@ def api_add_client(current_user):
     return jsonify({'status': status, 'message': error})
 
 
-@app.route("/api/get_client", methods=['POST'])
+@app.route("/api/get_client_profile", methods=['POST'])
 @token_required
 def api_get_client(current_user):
     data = request.get_json()
-    status, username, prof, err = api.get_client(data)
+    status, result = api.get_client_profile(data)
     if status:
-        return jsonify({'status': status, 'username': username, 'profile': prof})
-    return jsonify({'status': status, 'error': err})
+        return jsonify({'status': status, 'profile': result})
+    return jsonify({'status': status, 'error': result})
+
+
+@app.route("/api/get_all_clients", methods=['GET'])
+@token_required
+def list_all_clients(current_user):
+    status, result = api.get_all_clients()
+    if status:
+        return jsonify({'status': status, 'clients': result})
+    return jsonify({'status': status, 'error': result})
 
 
 @app.route("/api/edit_client", methods=['POST'])
@@ -232,22 +241,22 @@ def api_edit_client(current_user):
 @token_required
 def api_delete_client(current_user):
     data = request.get_json()
-    status = api.delete_client(data)
-    return jsonify({"status": status})
+    status, error = api.delete_client(data)
+    return jsonify({'status': status, 'message': error})
 
 
 @app.route("/api/block_client", methods=['POST'])
 @token_required
 def api_block_client(current_user):
-
-    return ''
+    status, profiles = api.block_client()
+    return jsonify({"status": status, "profiles": profiles})
 
 
 @app.route("/api/activate_client", methods=['POST'])
 @token_required
 def api_activate_client(current_user):
-
-    return ''
+    status, profiles = api.activate_client()
+    return jsonify({"status": status, "profiles": profiles})
 
 
 @app.route("/api/list_profiles", methods=['GET'])
