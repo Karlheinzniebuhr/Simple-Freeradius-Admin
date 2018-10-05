@@ -13,15 +13,21 @@ import datetime
 import jwt
 from functools import wraps
 from flask_login import login_user, current_user, logout_user, login_required
-import ipaddress
+from ipaddress import ip_address, ip_network
 
 
 def local_network_only(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         ip = request.remote_addr
-        ip = '192.168.2.6'
-        if ipaddress.ip_address(ip) not in ipaddress.ip_network('192.168.2.0/24'):
+        networks = [ip_network('192.168.2.0/24'),ip_network('127.0.0.1')]
+
+        ip_allowed = False
+        for net in networks:
+            if ip_address(ip) in net:
+                ip_allowed = True
+
+        if not ip_allowed:
             return make_response('Denied!', 403)
 
         return f(*args, **kwargs)

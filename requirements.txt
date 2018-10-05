@@ -4,3 +4,4 @@ flask_admin
 pymysql
 flask_wtf
 flask_table
+flask_login
