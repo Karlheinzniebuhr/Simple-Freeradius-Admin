@@ -20,7 +20,7 @@ def local_network_only(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         ip = request.remote_addr
-        networks = [ip_network('192.168.2.0/24'),ip_network('127.0.0.1'),ip_network('::1')]
+        networks = [ip_network('192.168.0.0/12', strict=False),ip_network('127.0.0.1', strict=False),ip_network('::1', strict=False), ip_network('172.16.0.0/12', strict=False)]
 
         ip_allowed = False
         for net in networks:
@@ -28,7 +28,7 @@ def local_network_only(f):
                 ip_allowed = True
 
         if not ip_allowed:
-            return make_response('Denied!', 403)
+            return make_response('IP ' + ip + ' Denied!', 403)
 
         return f(*args, **kwargs)
 
