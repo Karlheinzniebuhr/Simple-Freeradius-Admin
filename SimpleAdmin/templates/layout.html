@@ -9,7 +9,41 @@
     <script defer src="{{url_for('static', filename='jquery.slim.min.js')}}"></script>
     <script defer src="{{url_for('static', filename='fuzzy_table_search.js')}}"></script>
     <script defer src="{{url_for('static', filename='dansup.github.io_bulma-templates_css_admin.css')}}"></script>
+    
+    <style>
+      div span:hover{background-color: #2CF300 !important;}
+      tr:hover{background-color: #2CF300 !important;}
 
+      .loader {
+        border: 5px solid #f3f3f3;
+        -webkit-animation: spin 1s linear infinite;
+        animation: spin 1s linear infinite;
+        border-top: 5px solid #00d1b2;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+      }
+      
+      /* Safari */
+      @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      div span:hover{background-color: #2CF300 !important;}
+      tr:hover{background-color: #2CF300 !important;}
+      .changeFL {
+        margin-right: 0rem;
+        text-align: left;
+        flex-grow: 1.3;
+		  }
+
+    </style
   </head>
   <body>
 

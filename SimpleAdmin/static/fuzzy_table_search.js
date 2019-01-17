@@ -2,7 +2,7 @@ $(document).ready(function() {
     var activeSystemClass = $('.list-group-item.active');
 
     //something is entered in search form
-    $('#search').keydown( function() {
+    $('#search').keyup( function() {
         var that = this;
         var inputText = $(that).val().toLowerCase();
         // affect all table rows on in systems table
@@ -12,10 +12,10 @@ $(document).ready(function() {
         $('.search-sf').remove();
         tableRowsClass.each( function(i, val) {
             //Lower text for case insensitive
-            var rowText = $(val).text().toLowerCase();
+            var name = $(val).find('td')[0].innerHTML.toLowerCase();
 
             // If row does not contains text, hide it
-            if( rowText.indexOf( inputText ) == -1 )
+            if( name.indexOf( inputText ) == -1 )
             {
                 tableRowsClass.eq(i).hide();
             }

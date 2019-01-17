@@ -1,5 +1,24 @@
 {% extends "layout.html" %} {% block content %}
 
+<script>
+    function make_row_links_clickeable() {
+        console.log('running make_row_links_clickeable');
+        var arr = [];
+        var l = document.links;
+            for(var i=0; i<l.length; i++) {
+                var link = l[i].href;
+                var td = l[i].parentElement;
+                var tr = td.parentElement;
+                tr.id = link;
+                tr.onclick = function(){ open(this.id, "_self"); };
+                arr.push(l[i].href);
+        };
+};
+
+window.onload = function() {
+    make_row_links_clickeable();
+};
+</script>
 
   <div class="card">
       <div class="card-content">
